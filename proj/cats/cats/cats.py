@@ -30,6 +30,10 @@ def pick(paragraphs, select, k):
     """
     # BEGIN PROBLEM 1
     "*** YOUR CODE HERE ***"
+    if paragraphs[k].len == select:
+        return paragraphs[k]
+    else:
+        return ''
     # END PROBLEM 1
 
 
