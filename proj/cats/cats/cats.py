@@ -87,6 +87,17 @@ def accuracy(typed, source):
     source_words = split(source)
     # BEGIN PROBLEM 3
     "*** YOUR CODE HERE ***"
+    total = len(typed_words)
+    score = 0
+    if total == 0 and len(source_words) == 0:
+        return 100.0
+    if total == 0 or len(source_words) == 0:
+        return 0.0
+    for i in range(total):
+        if i < len(source_words) and typed_words[i] == source_words[i]:
+            score += 1
+    score = score / total
+    return score * 100
     # END PROBLEM 3
 
 
@@ -105,6 +116,9 @@ def wpm(typed, elapsed):
     assert elapsed > 0, 'Elapsed time must be positive'
     # BEGIN PROBLEM 4
     "*** YOUR CODE HERE ***"
+    words = len(typed) / 5.0
+    minutes = elapsed / 60.0
+    return words / minutes
     # END PROBLEM 4
 
 
@@ -132,6 +146,14 @@ def autocorrect(typed_word, word_list, diff_function, limit):
     """
     # BEGIN PROBLEM 5
     "*** YOUR CODE HERE ***"
+    if typed_word in word_list:
+        return typed_word
+    corr_list = [diff_function(typed_word, word, limit) for word in word_list]
+    min_word = min(corr_list)
+    if min_word > limit:
+        return typed_word
+    else:
+        return word_list[corr_list.index(min_word)]
     # END PROBLEM 5
 
 
@@ -158,7 +180,17 @@ def feline_fixes(typed, source, limit):
     5
     """
     # BEGIN PROBLEM 6
-    assert False, 'Remove this line'
+    if typed == source:
+        return 0
+    if limit == 0:
+        return 1
+    if min(len(typed), len(source)) == 0:
+        return max(len(typed), len(source))
+    diff = typed[0] != source[0] 
+    # diff = 1 if start and goal have identical initial letter, else 0
+    return diff + feline_fixes(typed[1:], source[1:], limit-diff)
+    # compare two reduced strings and decrease limit by diff
+    
     # END PROBLEM 6
 
 
@@ -177,15 +209,15 @@ def minimum_mewtations(start, goal, limit):
     >>> minimum_mewtations("ckiteus", "kittens", big_limit) # ckiteus -> kiteus -> kitteus -> kittens
     3
     """
-    assert False, 'Remove this line'
-    if ______________:  # Fill in the condition
+    if start == goal:  # Fill in the condition
         # BEGIN
-        "*** YOUR CODE HERE ***"
+        return 0
         # END
-    elif ___________:  # Feel free to remove or add additional cases
+    elif limit == 0:  # Feel free to remove or add additional cases
         # BEGIN
-        "*** YOUR CODE HERE ***"
+        return 1
         # END
+
     else:
         add = ...  # Fill in these lines
         remove = ...
