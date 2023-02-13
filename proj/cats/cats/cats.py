@@ -190,7 +190,6 @@ def feline_fixes(typed, source, limit):
     # diff = 1 if start and goal have identical initial letter, else 0
     return diff + feline_fixes(typed[1:], source[1:], limit-diff)
     # compare two reduced strings and decrease limit by diff
-    
     # END PROBLEM 6
 
 
@@ -209,23 +208,18 @@ def minimum_mewtations(start, goal, limit):
     >>> minimum_mewtations("ckiteus", "kittens", big_limit) # ckiteus -> kiteus -> kitteus -> kittens
     3
     """
-    if start == goal:  # Fill in the condition
-        # BEGIN
+    if start == goal: 
         return 0
-        # END
-    elif limit == 0:  # Feel free to remove or add additional cases
-        # BEGIN
+    elif limit < 0:
         return 1
-        # END
-
+    elif min(len(start), len(goal)) == 0:
+        return max(len(start), len(goal)) 
     else:
-        add = ...  # Fill in these lines
-        remove = ...
-        substitute = ...
-        # BEGIN
-        "*** YOUR CODE HERE ***"
-        # END
-
+        diff = start[0] != goal[0]
+        add = 1 + minimum_mewtations(start, goal[1:], limit-1)
+        remove = 1 + minimum_mewtations(start[1:], goal, limit-1)
+        swap = diff + minimum_mewtations(start[1:], goal[1:], limit - diff)
+    return min(add, remove, swap)
 
 def final_diff(typed, source, limit):
     """A diff function that takes in a string TYPED, a string SOURCE, and a number LIMIT.
